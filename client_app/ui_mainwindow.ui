@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowTitle">
+   <string>TCP Camera Client (Framed + Debug)</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelHost">
+        <property name="text">
+         <string>Host</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="editHost">
+        <property name="text">
+         <string>raspberrypi.local</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="labelVideoPort">
+        <property name="text">
+         <string>Video</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="editVideoPort">
+        <property name="text">
+         <string>9000</string>
+        </property>
+        <property name="maximumWidth">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="labelControlPort">
+        <property name="text">
+         <string>Drive</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLineEdit" name="editControlPort">
+        <property name="text">
+         <string>9001</string>
+        </property>
+        <property name="maximumWidth">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QLabel" name="labelGimbalPort">
+        <property name="text">
+         <string>Gimbal</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QLineEdit" name="editGimbalPort">
+        <property name="text">
+         <string>9002</string>
+        </property>
+        <property name="maximumWidth">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelTelemPort">
+        <property name="text">
+         <string>Telem</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="editTelemPort">
+        <property name="text">
+         <string>9003</string>
+        </property>
+        <property name="maximumWidth">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="labelDebugPort">
+        <property name="text">
+         <string>ffplay</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="editDebugPort">
+        <property name="text">
+         <string>9009</string>
+        </property>
+        <property name="maximumWidth">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <widget class="QWidget" name="tabVideo">
+       <attribute name="title">
+        <string>Video</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayoutVideo">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutVideoButtons">
+          <item>
+           <widget class="QPushButton" name="btnConnectVideo">
+            <property name="text">
+             <string>Connect video</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDisconnectVideo">
+            <property name="text">
+             <string>Disconnect</string>
+            </property>
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer1">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnStartDebug">
+            <property name="text">
+             <string>Start ffplay (debug)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnStopDebug">
+            <property name="text">
+             <string>Stop debug</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QLabel" name="labelVideo">
+          <property name="minimumSize">
+           <size>
+            <width>640</width>
+            <height>360</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>No video</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { background: #222; color: #ddd; }</string>
+          </property>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QLabel" name="labelStats">
+          <property name="text">
+           <string>FPS: -   Mbps: -   PTS(us): -</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="tabControl">
+       <attribute name="title">
+        <string>Control</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayoutControl">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutControlButtons">
+          <item>
+           <widget class="QPushButton" name="btnConnectControl">
+            <property name="text">
+             <string>Connect control</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDisconnectControl">
+            <property name="text">
+             <string>Disconnect</string>
+            </property>
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="editCommand">
+            <property name="text">
+             <string>{&quot;cmd&quot;:&quot;get_status&quot;}</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSendCommand">
+            <property name="text">
+             <string>Send</string>
+            </property>
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QLabel" name="labelGimbalHelp">
+          <property name="text">
+            <string>Gimbal: I = up, J = left, K = down, L = right, C = center</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { color: #d8d8d8; background: #263238; padding: 6px 10px; border-radius: 4px; }</string>
+          </property>
+         </widget>
+        </item>
+
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutGimbalActions">
+          <item>
+           <widget class="QPushButton" name="btnRebootGimbal">
+            <property name="text">
+              <string>Hard reset gimbal</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacerGimbalActions">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <layout class="QGridLayout" name="gridLayoutGimbalIndicator">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelGimbalPanTitle">
+            <property name="text">
+             <string>Pan</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="labelGimbalPanValue">
+            <property name="text">
+             <string>0.0 deg</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel { font-weight: bold; color: #1565c0; }</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelGimbalTiltTitle">
+            <property name="text">
+             <string>Tilt</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="labelGimbalTiltValue">
+            <property name="text">
+             <string>0.0 deg</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel { font-weight: bold; color: #2e7d32; }</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <widget class="QLabel" name="labelGimbalState">
+          <property name="text">
+           <string>Gimbal pan 0.0 deg   |   tilt 0.0 deg</string>
+          </property>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QTextEdit" name="textControlLog">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+
+      <widget class="QWidget" name="tabTelemetry">
+       <attribute name="title">
+        <string>Telemetry</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayoutTelemetry">
+        <item>
+         <widget class="QLabel" name="labelLowBatIndicator">
+          <property name="text">
+           <string>BATTERY STATUS: OK</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel { background: #2f6f3e; color: white; font-weight: bold; padding: 8px; border-radius: 4px; }</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayoutTelemetry">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelBat1Title">
+            <property name="text"><string>Battery 1</string></property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="labelBat1Value">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelBat2Title">
+            <property name="text"><string>Battery 2</string></property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="labelBat2Value">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelBat3Title">
+            <property name="text"><string>Battery 3</string></property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="labelBat3Value">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelBat4Title">
+            <property name="text"><string>Battery 4</string></property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="labelBat4Value">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelBatVoltageTitle">
+            <property name="text"><string>Battery Voltage</string></property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="labelBatVoltageValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelBatCurrentTitle">
+            <property name="text"><string>Battery Current</string></property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="labelBatCurrentValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelBatPercentTitle">
+            <property name="text"><string>Battery Percent</string></property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLabel" name="labelBatPercentValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelVbusVTitle">
+            <property name="text"><string>VBUS Voltage</string></property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLabel" name="labelVbusVValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="labelVbusITitle">
+            <property name="text"><string>VBUS Current</string></property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLabel" name="labelVbusIValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="labelVbusPTitle">
+            <property name="text"><string>VBUS Power</string></property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QLabel" name="labelVbusPValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="labelTempTitle">
+            <property name="text"><string>Temperature</string></property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QLabel" name="labelTempValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="labelFpsTitle">
+            <property name="text"><string>FPS</string></property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QLabel" name="labelFpsValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QLabel" name="labelLowBatCellsTitle">
+            <property name="text"><string>Low cells</string></property>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QLabel" name="labelLowBatCellsValue">
+            <property name="text"><string>-</string></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacerTelemetry">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size><width>20</width><height>40</height></size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <widget class="QWidget" name="tabLog">
+       <attribute name="title">
+        <string>Log</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayoutLog">
+        <item>
+         <widget class="QTextEdit" name="textLog">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
